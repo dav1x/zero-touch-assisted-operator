@@ -33,8 +33,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
-    app: scality
-  name: scality-pv-claim
+    app: assisted-service 
+  name: bucket-pv-claim 
   namespace: assisted-installer
 spec:
   accessModes:
@@ -54,10 +54,48 @@ spec:
 EOF
   ```
   
-Next, in the web console add the operator.
+Next, add the subscription for the new CatalogSource
 
-![ZTP1](https://user-images.githubusercontent.com/7294149/110962875-0ff2f800-8317-11eb-9c3a-b465af443fc5.png)
+```
+cat <<EOF | oc create -f -
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: assisted-installer-operator
+  namespace: assisted-installer
+spec:
+  targetNamespaces:
+  - assisted-installer
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: assisted-service-operator
+  namespace: assisted-installer 
+spec:
+  channel: alpha
+  installPlanApproval: Automatic
+  name: assisted-service-operator
+  source: assisted-service
+  sourceNamespace: openshift-marketplace
+  startingCSV: assisted-service-operator.v0.0.1
+  config:
+    env:
+    - name: DEPLOY_TARGET
+      value: "onprem"
+EOF
+```
+Note: the onprem deployment target bypasses the baremetal inventory check on the cluster hosting Assisted installer
 
-![ZTP2](https://user-images.githubusercontent.com/7294149/110962986-2b5e0300-8317-11eb-96ea-f00772e7a543.png)
+## Creating the new Custom Resources for OpenShift Deployment
+
+The CR install process requires 4 objects for deployment.
+1. The pull secret for the image
+2. An SSH private key for manipulation of the deployed node via Hive.
+3. The ClusterDeployment manifest which specifies the OCP version to be deployed and other information that would typically be defined in the install-config.
+4. The InstallEnv this kicks off the creation of the discovery ISO and is what you will boot the node to. 
+
+
 
 
