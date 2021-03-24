@@ -88,7 +88,7 @@ EOF
 ```
 Note: the onprem deployment target bypasses the baremetal inventory check on the cluster hosting Assisted installer
 
-## Creating the new Custom Resources for OpenShift Deployment
+## Creating the new Custom Resource manifests for OpenShift Deployment
 
 The CR install process requires 4 objects for deployment.
 1. The pull secret for the image
