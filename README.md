@@ -1,6 +1,6 @@
 # zero-touch-assisted-operator
 
-This repository will walk through the required steps for deploying OpenShift with zero touch provisioning. It utilizes the Assisted Installer Operator. The steps followed here including the compiled operator were provided by @jparrill.
+This repository will walk through the required steps for deploying OpenShift with zero touch provisioning. It utilizes the Assisted Installer Operator. The steps followed here include the compiled operator and installation steps provided by @jparrill.
 
 ## Deploying the Operator
 
