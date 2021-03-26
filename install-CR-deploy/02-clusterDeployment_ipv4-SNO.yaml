@@ -1,0 +1,43 @@
+apiVersion: hive.openshift.io/v1
+kind: ClusterDeployment
+metadata:
+  name: sno-assisted
+  namespace: assisted-installer
+spec:
+  baseDomain: example.com 
+  clusterName: ocp-sno
+  platform:
+    agentBareMetal:
+      # agentSelector matches InstallEnv 
+      agentSelector:
+        matchLabels:
+          bla: aaa
+      apiVIP: ""
+      ingressVIP: ""
+  provisioning:
+    imageSetRef:
+      name: "4.8"
+    installConfigSecretRef:
+      name: ocp-sno-install-config
+    sshPrivateKeySecretRef:
+      name: assisted-deployment-ssh-private-key
+    installStrategy:
+      agent:
+        sshPublicKey:
+        # Corresponding public key for private key 
+        # ..redacted.. 
+        networking:
+          clusterNetwork:
+            - cidr: 10.128.0.0/14
+              hostPrefix: 23
+          serviceNetwork:
+            - 172.30.0.0/16
+          machineNetwork:
+            # Actual machine CIDR for hosts of cluster
+            - cidr: 10.19.32.128/25 
+        provisionRequirements:
+          # Single node Openshift 1 controlPlaneAgents 0 workerAgents
+          controlPlaneAgents: 1
+          workerAgents: 0
+  pullSecretRef:
+    name: assisted-deployment-pull-secret
