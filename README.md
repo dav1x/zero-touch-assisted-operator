@@ -1,6 +1,6 @@
 # zero-touch-assisted-operator
 
-This repository will walk through the required steps for deploying OpenShift with zero touch provisioning. It utilizes the Assisted Installer Operator. The steps followed here include the compiled operator and installation steps provided by @jparrill. The operator uses the ClusterDeployment `CRD` provided by Hive. But, it requires hive from ocm-2.3 or higher. Lower versions will not include the 
+This repository will walk through the required steps for deploying OpenShift with zero touch provisioning. It utilizes the Assisted Installer Operator. The steps followed here include the compiled operator and installation steps provided by @jparrill. 
 
 ## Deploying the Operator
 
