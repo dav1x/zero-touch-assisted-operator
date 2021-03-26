@@ -1,0 +1,27 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: assisted-installer-operator
+  namespace: assisted-installer
+spec:
+  targetNamespaces:
+  - assisted-installer
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: assisted-service-operator
+  namespace: assisted-installer 
+spec:
+  channel: alpha
+  installPlanApproval: Automatic
+  name: assisted-service-operator
+  source: assisted-service
+  sourceNamespace: openshift-marketplace
+  startingCSV: assisted-service-operator.v0.0.1
+  config:
+    # Require to bypass metal checks for cluster hosting assisted installer operator
+    env:
+    - name: DEPLOY_TARGET
+      value: "onprem"

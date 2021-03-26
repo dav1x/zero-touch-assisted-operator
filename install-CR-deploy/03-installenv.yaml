@@ -1,0 +1,15 @@
+apiVersion: adi.io.my.domain/v1alpha1
+kind: InstallEnv
+metadata:
+  name: sno-assisted-ie
+  namespace: assisted-installer
+spec:
+  clusterRef:
+    name: sno-assisted 
+    namespace: assisted-installer
+  agentLabelSelector:
+    # agentSelector matches from ClusterDeployment
+    matchLabels:
+      bla: aaa
+  pullSecretRef:
+    name: assisted-deployment-pull-secret

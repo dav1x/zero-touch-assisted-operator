@@ -1,0 +1,8 @@
+[all:vars]
+bmc_user=root 
+bmc_password=calvin 
+bmc_address=
+
+[ansible]
+localhost
+
