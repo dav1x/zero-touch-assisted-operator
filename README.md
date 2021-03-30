@@ -250,13 +250,14 @@ Now, use a quick redfish ansible playbook to mount the image and boot it. The an
 [root@rh8-tools ansible-host]# ansible-playbook -i hosts playbook.yml -e discovery_image="http://$(hostname -i)/embedded.iso"
 ```
 
-Once the host has boot and is showing ready in the Assisted Metal UI, if the install has NOT started you can manually kick it off via the API.
-
+Once the host has boot and is showing ready in the Assisted Metal UI, if the install has NOT started you can manually kick it off via approving the agent or posting to the API.
 ```
-export URL=$(oc get route ocp-metal-ui -o jsonpath='{.spec.host}')
-export CLUSTER_ID=$(oc get installenv.adi.io.my.domain/sno-assisted-ie -o jsonpath='{.status.isoDownloadURL}' | cut -d'/' -f 8)
+[root@rh8-tools zero-touch-assisted-operator]# oc -n assisted-installer patch $(oc get agents.adi.io.my.domain -o name)  -p '{"spec":{"approved":true}}' --type merge
 
-curl -X POST "http://${URL}/api/assisted-install/v1/clusters/${CLUSTER_ID}/actions/install" -H "accept: application/json"
+[root@rh8-tools zero-touch-assisted-operator]# export URL=$(oc get route ocp-metal-ui -o jsonpath='{.spec.host}')
+[root@rh8-tools zero-touch-assisted-operator]# export CLUSTER_ID=$(oc get installenv.adi.io.my.domain/sno-assisted-ie -o jsonpath='{.status.isoDownloadURL}' | cut -d'/' -f 8)
+
+[root@rh8-tools zero-touch-assisted-operator]# curl -X POST "http://${URL}/api/assisted-install/v1/clusters/${CLUSTER_ID}/actions/install" -H "accept: application/json"
 ```
 
 ![Screen Shot 2021-03-26 at 9 49 05 AM](https://user-images.githubusercontent.com/7294149/112651532-7c432080-8e1a-11eb-8bbc-26060a90c696.png)
