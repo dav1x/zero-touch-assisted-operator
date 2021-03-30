@@ -254,6 +254,8 @@ Once the host has boot and is showing ready in the Assisted Metal UI, if the ins
 ```
 [root@rh8-tools zero-touch-assisted-operator]# oc -n assisted-installer patch $(oc get agents.adi.io.my.domain -o name)  -p '{"spec":{"approved":true}}' --type merge
 
+OR 
+
 [root@rh8-tools zero-touch-assisted-operator]# export URL=$(oc get route ocp-metal-ui -o jsonpath='{.spec.host}')
 [root@rh8-tools zero-touch-assisted-operator]# export CLUSTER_ID=$(oc get installenv.adi.io.my.domain/sno-assisted-ie -o jsonpath='{.status.isoDownloadURL}' | cut -d'/' -f 8)
 
